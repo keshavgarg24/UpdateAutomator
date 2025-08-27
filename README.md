@@ -1,311 +1,211 @@
-\# Automated Daily WhatsApp Update
+# Automated Daily WhatsApp Update
 
-This project automates sending your daily Git commits as a WhatsApp message to a manager or team member using \*\*WhatsApp Web\*\*, \*\*Selenium\*\*, and \*\*Brave Browser\*\*.
+This project automates sending your daily Git commits as a WhatsApp message to a manager or team member using **WhatsApp Web**, **Selenium**, and **Brave Browser**.
 
 Once set up, you can simply run:
-
-\`\`\`bash
-
+```bash
 send
-
+```
 from anywhere in your terminal to send your daily update automatically.
 
-Features
+## Features
 
-Fetches Git commits for today (or a specified date) from a given repository.
+- 📊 Fetches Git commits for today (or a specified date) from a given repository
+- 🧹 Cleans commit messages (removes `feat:`, `fix:`, etc. prefixes)
+- 📝 Formats a professional daily update message
+- 📱 Sends message via WhatsApp Web using a persistent Brave automation profile
+- ✅ Keeps browser open for confirmation
+- 🔄 Can be scheduled to run automatically
 
-Cleans commit messages (feat:, fix:, etc.).
+## Repository Structure
 
-Formats a daily update message.
-
-Sends message via WhatsApp Web using a persistent Brave automation profile.
-
-Keeps browser open for confirmation.
-
-Repository Structure
-
-bash
-
-Copy
-
-Edit
-
+```
 update/
+├── update.py          # Main Python script
+├── profile/           # Brave user data folder (persistent login)
+└── venv/             # Python virtual environment
+```
 
-├── update.py # Main Python script
+- `profile/` will be created during setup for Brave automation
+- `venv/` will be created to isolate dependencies
 
-├── profile/ # Brave user data folder (persistent login)
+## Prerequisites
 
-└── venv/ # Python virtual environment
+- Python 3.11+
+- Brave Browser installed
+- Git installed
+- ChromeDriver (matching your Brave version)
 
-profile/ will be created during setup for Brave automation.
+## Setup Instructions
 
-venv/ will be created to isolate dependencies.
+### 1️⃣ Clone the Repository
 
-Prerequisites
-
-Python 3.11+
-
-Brave Browser installed
-
-Git installed
-
-Chromedriver (matching your Brave version)
-
-Setup Instructions
-
-1️⃣ Clone the Repository
-
-bash
-
-Copy
-
-Edit
-
+```bash
 git clone https://github.com/yourusername/whatsapp-daily-update.git
-
 cd whatsapp-daily-update/update
+```
 
-2️⃣ Create Python Virtual Environment
+### 2️⃣ Create Python Virtual Environment
 
-bash
-
-Copy
-
-Edit
-
+```bash
 python3 -m venv venv
+```
 
-Activate it:
+**Activate it:**
 
-macOS / Linux
-
-bash
-
-Copy
-
-Edit
-
+**macOS / Linux:**
+```bash
 source venv/bin/activate
+```
 
-Windows (PowerShell)
+**Windows (PowerShell):**
+```powershell
+venv\Scripts\Activate.ps1
+```
 
-powershell
+### 3️⃣ Install Dependencies
 
-Copy
-
-Edit
-
-venv\\Scripts\\Activate.ps1
-
-3️⃣ Install Dependencies
-
-bash
-
-Copy
-
-Edit
-
+```bash
 pip install selenium
+```
 
-4️⃣ Set Up Brave Automation Profile
+### 4️⃣ Set Up Brave Automation Profile
 
-Create a persistent profile folder:
+**Create a persistent profile folder:**
 
-macOS / Linux
-
-bash
-
-Copy
-
-Edit
-
+**macOS / Linux:**
+```bash
 mkdir -p profile
+```
 
-Windows (PowerShell)
-
-powershell
-
-Copy
-
-Edit
-
+**Windows (PowerShell):**
+```powershell
 mkdir profile
+```
 
-Open Brave once to scan WhatsApp Web QR code manually:
+**Open Brave once to scan WhatsApp Web QR code manually:**
 
-macOS / Linux
+**macOS / Linux:**
+```bash
+/Applications/Brave\ Browser.app/Contents/MacOS/Brave\ Browser --user-data-dir="$(pwd)/profile"
+```
 
-bash
+**Windows (PowerShell):**
+```powershell
+"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe" --user-data-dir="%cd%\profile"
+```
 
-Copy
+> **Important:** Scan QR code only once. After this, login will be persistent.
 
-Edit
+### 5️⃣ Configure Your Script
 
-/Applications/Brave\\ Browser.app/Contents/MacOS/Brave\\ Browser --user-data-dir="$(pwd)/profile"
+Open `update.py` and modify:
 
-Windows (PowerShell)
-
-powershell
-
-Copy
-
-Edit
-
-"C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe" --user-data-dir="%cd%\\profile"
-
-Scan QR code only once. After this, login will be persistent.
-
-5️⃣ Configure Your Script
-
-Open update.py and modify:
-
-python
-
-Copy
-
-Edit
-
-\# WhatsApp number (include country code, no +)
-
+```python
+# WhatsApp number (include country code, no +)
 phone_number = "918595145323"
 
-\# Git repository path
-
+# Git repository path
 GIT_REPO_DIR = "/path/to/your/git/repo"
+```
 
 Replace with your manager's number and the full path to your repo.
 
-6️⃣ Make Script Globally Executable (send)
+### 6️⃣ Make Script Globally Executable (`send`)
 
-macOS / Linux
+**macOS / Linux:**
 
-Add shebang at the top of update.py:
+1. Add shebang at the top of `update.py`:
+   ```python
+   #!/usr/bin/env python3
+   ```
 
-python
+2. Rename to `send`:
+   ```bash
+   mv update.py send
+   ```
 
-Copy
+3. Make executable:
+   ```bash
+   chmod +x send
+   ```
 
-Edit
-
-#!/usr/bin/env python3
-
-Rename to send:
-
-bash
-
-Copy
-
-Edit
-
-mv update.py send
-
-Make executable:
-
-bash
-
-Copy
-
-Edit
-
-chmod +x send
-
-Move to /usr/local/bin:
-
-bash
-
-Copy
-
-Edit
-
-sudo mv send /usr/local/bin/
+4. Move to `/usr/local/bin`:
+   ```bash
+   sudo mv send /usr/local/bin/
+   ```
 
 Now you can run from anywhere:
-
-bash
-
-Copy
-
-Edit
-
+```bash
 send
+```
 
-Windows
+**Windows:**
 
-Add the following line at the top of update.py (optional, for clarity):
+1. Add the following line at the top of `update.py` (optional, for clarity):
+   ```python
+   #!/usr/bin/env python3
+   ```
 
-python
+2. Create a batch file `send.bat` in a folder that's in your PATH (e.g., `C:\Windows\System32`):
+   ```batch
+   @echo off
+   python "C:\full\path\to\update.py"
+   ```
 
-Copy
+Now you can run `send` from any PowerShell or CMD window.
 
-Edit
-
-#!/usr/bin/env python3
-
-Create a batch file send.bat in a folder that’s in your PATH (e.g., C:\\Windows\\System32):
-
-bat
-
-Copy
-
-Edit
-
-@echo off
-
-python "C:\\full\\path\\to\\update.py"
-
-Now you can run send from any PowerShell or CMD window.
-
-7️⃣ Test the Script
+### 7️⃣ Test the Script
 
 Run:
-
-bash
-
-Copy
-
-Edit
-
+```bash
 send
+```
 
-Browser will open Brave with your automation profile.
+- Browser will open Brave with your automation profile
+- Fetch commits for today and send message via WhatsApp Web
+- Browser remains open for confirmation
 
-Fetch commits for today and send message via WhatsApp Web.
+### 8️⃣ Optional: Schedule Daily Execution
 
-Browser remains open for confirmation.
+**macOS / Linux (Cron):**
 
-8️⃣ Optional: Schedule Daily Execution
-
-macOS / Linux (Cron)
-
-bash
-
-Copy
-
-Edit
-
+```bash
 crontab -e
+```
 
 Add:
+```cron
+0 18 * * * /usr/local/bin/send
+```
+*Runs every day at 6:00 PM.*
 
-cron
+**Windows (Task Scheduler):**
 
-Copy
+1. Create a new task
+2. Action: Run `send.bat` at desired time
 
-Edit
+## Troubleshooting
 
-0 18 \* \* \* /usr/local/bin/send
+| Issue | Solution |
+|-------|----------|
+| **Login required every time** | Make sure `profile/` folder exists and you scanned the QR code manually once |
+| **No commits detected** | Ensure `GIT_REPO_DIR` points to a valid repository and that there are commits for today |
+| **ChromeDriver issues** | Make sure ChromeDriver version matches your Brave browser version |
+| **Permission denied** | Make sure the script has executable permissions (`chmod +x send`) |
 
-Runs every day at 6:00 PM.
+## Contributing
 
-Windows (Task Scheduler)
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Create a new task.
+## License
 
-Action: Run send.bat at desired time.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Troubleshooting
+## Disclaimer
 
-Login required every time: Make sure profile/ folder exists and you scanned the QR code manually once.
-
-No commits detected: Ensure GIT_REPO_DIR points to a valid repository and that there are commits for today.
+This tool is for personal productivity and should be used responsibly. Make sure to comply with your organization's policies regarding automated messaging and data sharing.
