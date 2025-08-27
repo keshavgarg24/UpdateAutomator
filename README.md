@@ -41,8 +41,8 @@ update/
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/whatsapp-daily-update.git
-cd whatsapp-daily-update/update
+git clone https://github.com/keshavgarg24/UpdateAutomator.git
+cd update
 ```
 
 ### 2️⃣ Create Python Virtual Environment
